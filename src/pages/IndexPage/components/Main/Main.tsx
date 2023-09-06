@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import "./Main.scss";
 
-interface PhoneNumberItem {
+interface IPhoneNumberItem {
     id: number;
     phoneNumber: string;
 }
 
 const PhoneNumberList: React.FC = () => {
-    const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumberItem[]>([]);
+    const [phoneNumbers, setPhoneNumbers] = useState<IPhoneNumberItem[]>([]);
+
+    const [inputValue, setInputValue] = useState<string>('');
+
+    // const a = useState<string>('');
+    // a[0];
+    // a[1]('');
 
     const addPhoneNumber = () => {
-        const inputElement = document.getElementById('input-number') as HTMLInputElement;
+        // const inputElement = document.getElementById('input-number') as HTMLInputElement;
 
         // console.log("inputElement" , inputElement);
 
-        const newPhoneNumber = inputElement.value;
+        const newPhoneNumber = inputValue;
 
         console.log("newPhoneNumber", newPhoneNumber);
 
@@ -28,16 +34,19 @@ const PhoneNumberList: React.FC = () => {
             return;
         }
 
-        const newPhoneNumberItem: PhoneNumberItem = {
+        const newPhoneNumberItem: IPhoneNumberItem = {
             id: phoneNumbers.length + 1,
             phoneNumber: newPhoneNumber,
         };
 
+
         console.log("newPhoneNumberItem", newPhoneNumberItem);
         console.log("phoneNumbers", phoneNumbers);
 
-        setPhoneNumbers(prevPhoneNumbers => [...prevPhoneNumbers, newPhoneNumberItem]);
-        inputElement.value = '';
+        setPhoneNumbers([...phoneNumbers, newPhoneNumberItem]);
+        setInputValue('');
+
+
 
         // console.log("setPhoneNumbers", setPhoneNumbers);
     };
@@ -52,6 +61,10 @@ const PhoneNumberList: React.FC = () => {
             <div id="phonebook">
                 <input
                     id="input-number"
+                    onChange={(e)=>{
+                        setInputValue(e.target.value)
+                    }}
+                    value={inputValue}
                     placeholder="Введите номер телефона без +"
                     type="number"
                     pattern="^[0-9]+$"
